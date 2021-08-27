@@ -15,7 +15,7 @@ export class UserDatabase extends BaseDatabase {
             })
     }
 
-    public async findUserByEmail(email: string): Promise<User> {
+    public async findUserByEmail(email: string): Promise<User | undefined> {
 
         const user = await BaseDatabase.connection(UserDatabase.TABLE_NAME)
             .select('*')

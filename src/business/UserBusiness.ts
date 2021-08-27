@@ -4,6 +4,9 @@ import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 
+const userDatabase = new UserDatabase()
+const hashManager = new HashManager()
+const authenticator = new Authenticator()
 
 export class UserBusiness {
     static regExValidateEmail: RegExp = /^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i;
@@ -28,16 +31,43 @@ export class UserBusiness {
         const idGenerator = new IdGenerator()
         const id: string = idGenerator.generate()
 
-        const hashManager = new HashManager()
+
         const cypherPassword = await hashManager.hash(password);
 
         const newUser = new User(id, name, email, cypherPassword, role)
 
-        const userDatabase = new UserDatabase()
+
         await userDatabase.create(newUser)
 
-        const authenticator = new Authenticator()
+
         const token: string = authenticator.generate({ id, role })
+
+        return token
+    }
+
+    async login(email: string, password: string) {
+
+        if (!email || !password) {
+            throw new Error('"email" and "password" must be provided')
+        }
+
+        if (!UserBusiness.regExValidateEmail.test(email)) {
+            throw new Error("Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
+        };
+
+        const user: User | undefined = await userDatabase.findUserByEmail(email)
+
+        if (!user) {
+            throw new Error("Invalid credentials")
+        }
+
+        const passwordIsCorrect: boolean = await hashManager.compare(password, user.getPassword())
+
+        if (!passwordIsCorrect) {
+            throw new Error("Invalid credentials")
+        }
+
+        const token: string = authenticator.generate({ id: user.getId(), role: user.getRole() })
 
         return token
     }
