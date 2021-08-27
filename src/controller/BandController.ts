@@ -23,6 +23,25 @@ export class BandController {
         }
     }
 
+    async findById(req: Request, res: Response) {
+        try {
+            let message = "Success!"
+
+            const id = req.params.id
+
+            const token = req.headers.authorization
+
+            const band = await bandBusiness.findById(id, token)
+
+            res.status(201).send({ message, band })
+
+        } catch (error) {
+            res.statusCode = 400
+            let message = error.sqlMessage || error.message
+
+            res.send({ message })
+        }
+    }
     // async login(req: Request, res: Response) {
     //     try {
     //         let message = "Success!"

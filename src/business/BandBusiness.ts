@@ -20,7 +20,7 @@ export class BandBusiness {
 
         const tokenData = authenticator.getTokenData(token)
 
-        if (tokenData.role !== "ADMIN"){
+        if (tokenData.role !== "ADMIN") {
             throw new Error("You should be an ADMIN user to access")
         }
 
@@ -32,6 +32,28 @@ export class BandBusiness {
 
 
         await bandDatabase.create(newBand)
+
+    }
+
+    async findById(id: string, token?: string) {
+        if (!id) {
+            throw new Error("'id' must be provided")
+        }
+
+        if (!token) {
+            throw new Error("Authentication required")
+        }
+
+        authenticator.getTokenData(token)
+
+        const band = await bandDatabase.findById(id)
+
+        if(!band){
+            throw new Error("Band doesn't exist")
+        }
+
+        return band
+
 
     }
 

@@ -14,11 +14,12 @@ export class BandDatabase extends BaseDatabase {
             })
     }
 
-    public async findBandByName(name: string): Promise<Band | undefined> {
+    public async findById(id: string): Promise<Band | undefined> {
 
         const band = await BaseDatabase.connection(BandDatabase.TABLE_NAME)
             .select('*')
-            .where({ name: name })
+            .where({ id: id })
         return band[0] && Band.toBandModel(band[0]);
     }
+    
 }

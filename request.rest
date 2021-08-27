@@ -1,3 +1,4 @@
+### user endpoints
 POST http://localhost:3003/user/signup
 Content-Type: application/json
 
@@ -17,6 +18,10 @@ Content-Type: application/json
     "password": "123456"
 }
 
+### band endpoints
+GET http://localhost:3003/band/356a1a10-270e-49df-b317-acf9f4cc8102
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA4OTEyNiwiZXhwIjoxNjMwMDkyNzI2fQ.l-uSNVVrXBBIgqhxqFYT7D7MPUOVemeROy1KZjobhtU
+
 ###
 POST http://localhost:3003/band/create
 Content-Type: application/json
@@ -27,3 +32,4 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUt
     "musicGenre": "Rock",
     "responsible": "Maria"
 }
+
