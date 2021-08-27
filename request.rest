@@ -3,10 +3,10 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-    "name": "Maria",
-    "email": "maria@email.com",
+    "name": "Bruno",
+    "email": "bruno@email.com",
     "password": "123456",
-    "role": ""
+    "role": "admin"
 }
 
 ###
@@ -31,5 +31,17 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUt
     "name": "Sepultura",
     "musicGenre": "Rock",
     "responsible": "Maria"
+}
+
+### show endpoints
+POST http://localhost:3003/show/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA5NzM5OCwiZXhwIjoxNjMwMTAwOTk4fQ.UNwMCSDQQklmJwSND_9kNy9fywYhnOCIm55UvJrXtF0
+
+{
+    "weekDay": "sunday",
+    "startTime": 9,
+    "endTime": 12,
+    "bandId": "c9bbcd42-ea88-43c7-b5c0-5e2402c4d568"
 }
 

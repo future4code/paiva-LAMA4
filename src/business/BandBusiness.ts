@@ -10,10 +10,6 @@ const authenticator = new Authenticator()
 export class BandBusiness {
 
     async create(name: string, musicGenre: string, responsible: string, token?: string) {
-        if (!name || !musicGenre || !responsible) {
-            throw new Error("'name', 'musicGenre' and 'responsible' must be provided")
-        }
-
         if (!token) {
             throw new Error("Authentication required")
         }
@@ -22,6 +18,10 @@ export class BandBusiness {
 
         if (tokenData.role !== "ADMIN") {
             throw new Error("You should be an ADMIN user to access")
+        }
+
+        if (!name || !musicGenre || !responsible) {
+            throw new Error("'name', 'musicGenre' and 'responsible' must be provided")
         }
 
         const idGenerator = new IdGenerator()
@@ -48,7 +48,7 @@ export class BandBusiness {
 
         const band = await bandDatabase.findById(id)
 
-        if(!band){
+        if (!band) {
             throw new Error("Band doesn't exist")
         }
 
