@@ -48,7 +48,7 @@ export class UserBusiness {
     async login(email: string, password: string) {
 
         if (!email || !password) {
-            throw new Error('"email" and "password" must be provided')
+            throw new Error("'email' and 'password' must be provided")
         }
 
         if (!UserBusiness.regExValidateEmail.test(email)) {

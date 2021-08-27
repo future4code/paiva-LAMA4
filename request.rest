@@ -13,6 +13,17 @@ POST http://localhost:3003/user/login
 Content-Type: application/json
 
 {
-    "email": "maria@email.com",
+    "email": "joao@email.com",
     "password": "123456"
+}
+
+###
+POST http://localhost:3003/band/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA4MjE5NywiZXhwIjoxNjMwMDg1Nzk3fQ.LMlQGDuWv7GKBqOdPe-EzQJ4d_MX4v3Ni4G6umkraqY
+
+{
+    "name": "Sepultura",
+    "musicGenre": "Rock",
+    "responsible": "Maria"
 }

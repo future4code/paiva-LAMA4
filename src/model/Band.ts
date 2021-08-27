@@ -38,7 +38,7 @@ export class Band {
         this.responsible = newResponsible;
     };
 
-    static toUserModel(data: any): Band {
+    static toBandModel(data: any): Band {
         return new Band(data.id, data.name, data.musicGenre, data.responsible);
     };
 };
