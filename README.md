@@ -28,3 +28,5 @@ Para isso já deixamos algumas tabelas prontas para vocês não precisarem se pr
 - 6. Endpoint de pegar todos os shows de uma data
 
     Recebe um dia (sexta, sábado ou domingo) e retorna todos os shows daquela data (ordenados pelo horário), mostrando somente o nome da banda e o gênero musical principal.
+
+    a
