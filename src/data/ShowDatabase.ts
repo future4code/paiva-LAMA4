@@ -1,4 +1,4 @@
-import { Show } from "../model/Show";
+import { Show, SimplifiedShow } from "../model/Show";
 import { BaseDatabase } from "./BaseDatabase";
 
 export class ShowDatabase extends BaseDatabase {
@@ -15,12 +15,23 @@ export class ShowDatabase extends BaseDatabase {
             })
     }
 
-    public async findShowsByDay(weekDay: string): Promise<Show[] | undefined> {
+    public async findByDay(weekDay: string): Promise<Show[]> {
 
         const shows = await BaseDatabase.connection(ShowDatabase.TABLE_NAME)
             .select('*')
             .where({ week_day: weekDay })
-            
-        return shows[0] && shows.map((show) => Show.toShowModel(show));
+
+        return shows.map((show) => Show.toShowModel(show));
+    }
+
+    public async findByDayOrdered(weekDay: string): Promise<SimplifiedShow[]> {
+
+        const shows = await BaseDatabase.connection.raw(`
+            SELECT name, music_genre, start_time FROM Lama_Shows
+            INNER JOIN Lama_Bands ON band_id = Lama_Bands.id
+            WHERE week_day = "${weekDay}" ORDER BY start_time;
+        `)
+
+        return shows[0].map((show: SimplifiedShow) => SimplifiedShow.toSimplifiedModel(show));
     }
 }

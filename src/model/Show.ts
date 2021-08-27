@@ -1,7 +1,31 @@
 export enum SHOW_DAYS {
-    FRIDAY = "FRIDAY", 
-    SATURDAY = "SATURDAY", 
+    FRIDAY = "FRIDAY",
+    SATURDAY = "SATURDAY",
     SUNDAY = "SUNDAY"
+}
+
+export class SimplifiedShow {
+    constructor(
+        private name: string,
+        private musicGenre: string,
+        private startTime: number
+    ) { }
+
+    getName(): string {
+        return this.name;
+    };
+
+    getMusicGenre(): string {
+        return this.musicGenre;
+    };
+
+    getStartTime(): number {
+        return this.startTime;
+    };
+    
+    static toSimplifiedModel(data: any): SimplifiedShow {
+        return new SimplifiedShow(data.name, data.music_genre, data.start_time);
+    };
 }
 
 export class Show {

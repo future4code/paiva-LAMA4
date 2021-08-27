@@ -4,6 +4,7 @@ import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
 const authenticator = new Authenticator()
+const showDatabase = new ShowDatabase()
 
 export class ShowBusiness {
     private static validHours: number[] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
@@ -38,16 +39,15 @@ export class ShowBusiness {
             throw new Error("'startTime' should be earlier than 'endTime'")
         }
 
-        const showDatabase = new ShowDatabase()
-        const shows = await showDatabase.findShowsByDay(weekDay)
+        const shows = await showDatabase.findByDay(weekDay)
 
-        if (shows !== undefined) {
-            for (let show of shows) {
-                if (startTime >= show.getStartTime() && startTime <= show.getEndTime() || endTime >= show.getStartTime() && endTime <= show.getEndTime()) {
-                    throw new Error("'startTime' and/or 'endTime' already taken")
-                }
+
+        for (let show of shows) {
+            if (startTime >= show.getStartTime() && startTime < show.getEndTime() || endTime > show.getStartTime() && endTime <= show.getEndTime()) {
+                throw new Error("'startTime' and/or 'endTime' already taken")
             }
         }
+
 
 
         const idGenerator = new IdGenerator()
@@ -61,30 +61,20 @@ export class ShowBusiness {
 
     }
 
-    // async login(email: string, password: string) {
+    async findByDay(weekDay: SHOW_DAYS, token?: string) {
+        if (!token) {
+            throw new Error("Authentication required")
+        }
 
-    //     if (!email || !password) {
-    //         throw new Error("'email' and 'password' must be provided")
-    //     }
+        authenticator.getTokenData(token)
 
-    //     if (!UserBusiness.regExValidateEmail.test(email)) {
-    //         throw new Error("Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
-    //     };
+        if (weekDay.toLocaleUpperCase() !== SHOW_DAYS.FRIDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SATURDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SUNDAY) {
+            throw new Error("weekDay should be FRIDAY, SATURDAY or SUNDAY")
+        }
 
-    //     const user: User | undefined = await userDatabase.findUserByEmail(email)
+        const shows = await showDatabase.findByDayOrdered(weekDay)
 
-    //     if (!user) {
-    //         throw new Error("Invalid credentials")
-    //     }
+        return shows
 
-    //     const passwordIsCorrect: boolean = await hashManager.compare(password, user.getPassword())
-
-    //     if (!passwordIsCorrect) {
-    //         throw new Error("Invalid credentials")
-    //     }
-
-    //     const token: string = authenticator.generate({ id: user.getId(), role: user.getRole() })
-
-    //     return token
-    // }
+    }
 }

@@ -22,4 +22,5 @@ export class BandDatabase extends BaseDatabase {
         return band[0] && Band.toBandModel(band[0]);
     }
     
+    
 }

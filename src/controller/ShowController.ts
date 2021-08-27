@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { ShowBusiness } from '../business/ShowBusiness'
+import { SHOW_DAYS } from '../model/Show'
 
 const showBusiness: ShowBusiness = new ShowBusiness()
 
@@ -23,24 +24,24 @@ export class ShowController {
         }
     }
 
-    // async findById(req: Request, res: Response) {
-    //     try {
-    //         let message = "Success!"
+    async findByDay(req: Request, res: Response) {
+        try {
+            let message = "Success!"
 
-    //         const id = req.params.id
+            const weekDay = req.params.weekDay as SHOW_DAYS
 
-    //         const token = req.headers.authorization
+            const token = req.headers.authorization
 
-    //         const band = await bandBusiness.findById(id, token)
+            const shows = await showBusiness.findByDay(weekDay, token)
 
-    //         res.status(201).send({ message, band })
+            res.status(200).send({ message, shows })
 
-    //     } catch (error) {
-    //         res.statusCode = 400
-    //         let message = error.sqlMessage || error.message
+        } catch (error) {
+            res.statusCode = 400
+            let message = error.sqlMessage || error.message
 
-    //         res.send({ message })
-    //     }
-    // }
+            res.send({ message })
+        }
+    }
 
 }

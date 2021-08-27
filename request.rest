@@ -34,14 +34,18 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUt
 }
 
 ### show endpoints
+GET http://localhost:3003/show/friday
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDEwMTg3NCwiZXhwIjoxNjMwMTA1NDc0fQ.deTYcvwCOy4aD3bJGgfye9ynf95qihozBsdUeVSKzM8
+
+###
 POST http://localhost:3003/show/create
 Content-Type: application/json
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA5NzM5OCwiZXhwIjoxNjMwMTAwOTk4fQ.UNwMCSDQQklmJwSND_9kNy9fywYhnOCIm55UvJrXtF0
 
 {
-    "weekDay": "sunday",
-    "startTime": 9,
+    "weekDay": "friday",
+    "startTime": 11,
     "endTime": 12,
-    "bandId": "c9bbcd42-ea88-43c7-b5c0-5e2402c4d568"
+    "bandId": "356a1a10-270e-49df-b317-acf9f4cc8102"
 }
 
