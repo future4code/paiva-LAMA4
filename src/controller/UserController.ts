@@ -15,10 +15,8 @@ export class UserController {
             res.status(201).send({ message, token })
 
         } catch (error) {
-            res.statusCode = 400
             let message = error.sqlMessage || error.message
-
-            res.send({ message })
+            res.status(error.code || 400).send({ message })
         }
     }
 
@@ -34,9 +32,7 @@ export class UserController {
 
         } catch (error) {
             let message = error.sqlMessage || error.message
-            res.statusCode = 400
-
-            res.send({ message })
+            res.status(error.code || 400).send({ message })
         }
     }
 }

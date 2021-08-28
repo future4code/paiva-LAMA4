@@ -16,10 +16,8 @@ export class BandController {
             res.status(201).send({ message })
 
         } catch (error) {
-            res.statusCode = 400
             let message = error.sqlMessage || error.message
-
-            res.send({ message })
+            res.status(error.code || 400).send({ message })
         }
     }
 
@@ -36,10 +34,8 @@ export class BandController {
             res.status(201).send({ message, band })
 
         } catch (error) {
-            res.statusCode = 400
             let message = error.sqlMessage || error.message
-
-            res.send({ message })
+            res.status(error.code || 400).send({ message })
         }
     }
 

@@ -4,11 +4,18 @@ export enum SHOW_DAYS {
     SUNDAY = "SUNDAY"
 }
 
+export interface ShowInfo {
+    name: string,
+    musicGenre: string,
+    schedule: string
+}
+
 export class SimplifiedShow {
     constructor(
         private name: string,
         private musicGenre: string,
-        private startTime: number
+        private startTime: number,
+        private endTime: number
     ) { }
 
     getName(): string {
@@ -22,9 +29,13 @@ export class SimplifiedShow {
     getStartTime(): number {
         return this.startTime;
     };
-    
+
+    getEndTime(): number {
+        return this.endTime;
+    };
+
     static toSimplifiedModel(data: any): SimplifiedShow {
-        return new SimplifiedShow(data.name, data.music_genre, data.start_time);
+        return new SimplifiedShow(data.name, data.music_genre, data.start_time, data.end_time);
     };
 }
 

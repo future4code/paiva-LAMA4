@@ -1,4 +1,5 @@
 import { UserDatabase } from "../data/UserDatabase";
+import { CustomError } from "../error/CustomError";
 import { User, USER_ROLES } from "../model/User";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
@@ -13,15 +14,15 @@ export class UserBusiness {
 
     async signup(name: string, email: string, password: string, role?: USER_ROLES) {
         if (!name || !email || !password) {
-            throw new Error("'name', 'email' and 'password' must be provided")
+            throw new CustomError(422, "'name', 'email' and 'password' must be provided")
         }
 
         if (!UserBusiness.regExValidateEmail.test(email)) {
-            throw new Error("Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
+            throw new CustomError(422, "Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
         };
 
         if (password.length < 6) {
-            throw new Error("'password' must be at least 6 characters long");
+            throw new CustomError(422, "'password' must be at least 6 characters long");
         }
 
         if (!role || role.toLocaleUpperCase() !== USER_ROLES.ADMIN) {
@@ -48,23 +49,23 @@ export class UserBusiness {
     async login(email: string, password: string) {
 
         if (!email || !password) {
-            throw new Error("'email' and 'password' must be provided")
+            throw new CustomError(422, "'email' and 'password' must be provided")
         }
 
         if (!UserBusiness.regExValidateEmail.test(email)) {
-            throw new Error("Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
+            throw new CustomError(422, "Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
         };
 
         const user: User | undefined = await userDatabase.findUserByEmail(email)
 
         if (!user) {
-            throw new Error("Invalid credentials")
+            throw new CustomError(422, "Invalid credentials")
         }
 
         const passwordIsCorrect: boolean = await hashManager.compare(password, user.getPassword())
 
         if (!passwordIsCorrect) {
-            throw new Error("Invalid credentials")
+            throw new CustomError(422, "Invalid credentials")
         }
 
         const token: string = authenticator.generate({ id: user.getId(), role: user.getRole() })

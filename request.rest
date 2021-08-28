@@ -3,8 +3,8 @@ POST http://localhost:3003/user/signup
 Content-Type: application/json
 
 {
-    "name": "Bruno",
-    "email": "bruno@email.com",
+    "name": "Pedro",
+    "email": "pedro@email.com",
     "password": "123456",
     "role": "admin"
 }
@@ -20,12 +20,12 @@ Content-Type: application/json
 
 ### band endpoints
 GET http://localhost:3003/band/356a1a10-270e-49df-b317-acf9f4cc8102
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA4OTEyNiwiZXhwIjoxNjMwMDkyNzI2fQ.l-uSNVVrXBBIgqhxqFYT7D7MPUOVemeROy1KZjobhtU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE4NjM3MSwiZXhwIjoxNjMwMTg5OTcxfQ.HN2J79v-0EkE-su4OVghrPlRX7IMb6Nk5wClVdgZsXM
 
 ###
 POST http://localhost:3003/band/create
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA4MjE5NywiZXhwIjoxNjMwMDg1Nzk3fQ.LMlQGDuWv7GKBqOdPe-EzQJ4d_MX4v3Ni4G6umkraqY
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE4NjM3MSwiZXhwIjoxNjMwMTg5OTcxfQ.HN2J79v-0EkE-su4OVghrPlRX7IMb6Nk5wClVdgZsXM
 
 {
     "name": "Sepultura",
@@ -35,17 +35,17 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUt
 
 ### show endpoints
 GET http://localhost:3003/show/friday
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDEwMTg3NCwiZXhwIjoxNjMwMTA1NDc0fQ.deTYcvwCOy4aD3bJGgfye9ynf95qihozBsdUeVSKzM8
+Authorization: eJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE4NDEzMiwiZXhwIjoxNjMwMTg3NzMyfQ.EoItqhUu1ELPnrft2hz-sRmBge-3Zvu7_enKbp4Wsz4
 
 ###
 POST http://localhost:3003/show/create
 Content-Type: application/json
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDA5NzM5OCwiZXhwIjoxNjMwMTAwOTk4fQ.UNwMCSDQQklmJwSND_9kNy9fywYhnOCIm55UvJrXtF0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE4NDEzMiwiZXhwIjoxNjMwMTg3NzMyfQ.EoItqhUu1ELPnrft2hz-sRmBge-3Zvu7_enKbp4Wsz4
 
 {
     "weekDay": "friday",
-    "startTime": 11,
-    "endTime": 12,
+    "startTime": 9,
+    "endTime": 10,
     "bandId": "356a1a10-270e-49df-b317-acf9f4cc8102"
 }
 

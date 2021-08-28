@@ -1,5 +1,6 @@
 import { ShowDatabase } from "../data/ShowDatabase";
-import { Show, SHOW_DAYS } from "../model/Show";
+import { CustomError } from "../error/CustomError";
+import { Show, SHOW_DAYS, ShowInfo } from "../model/Show";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
@@ -11,32 +12,32 @@ export class ShowBusiness {
 
     async create(weekDay: SHOW_DAYS, startTime: number, endTime: number, bandId: string, token?: string) {
         if (!token) {
-            throw new Error("Authentication required")
+            throw new CustomError(401, "Authentication required")
         }
 
         const tokenData = authenticator.getTokenData(token)
 
         if (tokenData.role !== "ADMIN") {
-            throw new Error("You should be an ADMIN user to access")
+            throw new CustomError(403, "You should be an ADMIN user to access")
         }
 
         if (!weekDay || !startTime || !endTime || !bandId) {
-            throw new Error("'weekDay', 'startTime', 'endTime' and 'bandId' must be provided")
+            throw new CustomError(422, "'weekDay', 'startTime', 'endTime' and 'bandId' must be provided")
         }
 
         if (weekDay.toLocaleUpperCase() !== SHOW_DAYS.FRIDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SATURDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SUNDAY) {
-            throw new Error("weekDay should be FRIDAY, SATURDAY or SUNDAY")
+            throw new CustomError(422, "weekDay should be FRIDAY, SATURDAY or SUNDAY")
         }
 
         const checkStartTime = ShowBusiness.validHours.findIndex((hour) => hour === startTime)
         const checkEndTime = ShowBusiness.validHours.findIndex((hour) => hour === endTime)
 
         if (checkEndTime === -1 || checkStartTime === -1) {
-            throw new Error("'startTime' and 'endTime' should be an integer between 8 and 23")
+            throw new CustomError(422, "'startTime' and 'endTime' should be an integer between 8 and 23")
         }
 
         if (endTime < startTime) {
-            throw new Error("'startTime' should be earlier than 'endTime'")
+            throw new CustomError(422, "'startTime' should be earlier than 'endTime'")
         }
 
         const shows = await showDatabase.findByDay(weekDay)
@@ -44,7 +45,7 @@ export class ShowBusiness {
 
         for (let show of shows) {
             if (startTime >= show.getStartTime() && startTime < show.getEndTime() || endTime > show.getStartTime() && endTime <= show.getEndTime()) {
-                throw new Error("'startTime' and/or 'endTime' already taken")
+                throw new CustomError(409, "'startTime' and/or 'endTime' already taken")
             }
         }
 
@@ -63,18 +64,26 @@ export class ShowBusiness {
 
     async findByDay(weekDay: SHOW_DAYS, token?: string) {
         if (!token) {
-            throw new Error("Authentication required")
+            throw new CustomError(401, "Authentication required")
         }
 
         authenticator.getTokenData(token)
 
         if (weekDay.toLocaleUpperCase() !== SHOW_DAYS.FRIDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SATURDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SUNDAY) {
-            throw new Error("weekDay should be FRIDAY, SATURDAY or SUNDAY")
+            throw new CustomError(422, "weekDay should be FRIDAY, SATURDAY or SUNDAY")
         }
 
-        const shows = await showDatabase.findByDayOrdered(weekDay)
+        const result = await showDatabase.findByDayOrdered(weekDay)
+
+        let shows: ShowInfo[] = []
+
+        result.map((show) => shows.push({
+            name: show.getName(),
+            musicGenre: show.getMusicGenre(),
+            schedule: show.getStartTime() < 10 ? show.getEndTime() < 10 ? `0${show.getStartTime()}h - 0${show.getEndTime()}h` : `0${show.getStartTime()}h - ${show.getEndTime()}h` : `${show.getStartTime()}h - ${show.getEndTime()}h`
+        })
+        );
 
         return shows
-
     }
 }
