@@ -1,17 +1,26 @@
 import { Request, Response } from 'express'
 import { BandBusiness } from '../business/BandBusiness'
-
-const bandBusiness: BandBusiness = new BandBusiness()
+import { BandInputDTO, BandOutputDTO } from '../model/Band'
 
 export class BandController {
+    constructor(
+        private bandBusiness: BandBusiness
+    ) { }
+
     async create(req: Request, res: Response) {
         try {
             let message = "Success!"
             const { name, musicGenre, responsible } = req.body
 
+            const input: BandInputDTO = {
+                name,
+                musicGenre,
+                responsible
+            }
+
             const token = req.headers.authorization
 
-            await bandBusiness.create(name, musicGenre, responsible, token)
+            await this.bandBusiness.create(input, token)
 
             res.status(201).send({ message })
 
@@ -29,7 +38,7 @@ export class BandController {
 
             const token = req.headers.authorization
 
-            const band = await bandBusiness.findById(id, token)
+            const band: BandOutputDTO = await this.bandBusiness.findById(id, token)
 
             res.status(201).send({ message, band })
 

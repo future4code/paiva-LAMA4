@@ -1,18 +1,23 @@
-import { UserDatabase } from "../data/UserDatabase";
+import { UserRepository } from "../data/UserRepository";
 import { CustomError } from "../error/CustomError";
-import { User, USER_ROLES } from "../model/User";
+import { LoginInputDTO, User, UserInputDTO, USER_ROLES } from "../model/User";
 import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 
-const userDatabase = new UserDatabase()
 const hashManager = new HashManager()
 const authenticator = new Authenticator()
 
 export class UserBusiness {
     static regExValidateEmail: RegExp = /^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i;
+    constructor(
+        private userDatabase: UserRepository
+    ) { }
 
-    async signup(name: string, email: string, password: string, role?: USER_ROLES) {
+    async signup(input: UserInputDTO) {
+        const { name, email, password, role } = input
+        let userRole: USER_ROLES = USER_ROLES.ADMIN;
+
         if (!name || !email || !password) {
             throw new CustomError(422, "'name', 'email' and 'password' must be provided")
         }
@@ -26,7 +31,7 @@ export class UserBusiness {
         }
 
         if (!role || role.toLocaleUpperCase() !== USER_ROLES.ADMIN) {
-            role = USER_ROLES.NORMAL
+            userRole = USER_ROLES.NORMAL
         }
 
         const idGenerator = new IdGenerator()
@@ -35,18 +40,19 @@ export class UserBusiness {
 
         const cypherPassword = await hashManager.hash(password);
 
-        const newUser = new User(id, name, email, cypherPassword, role)
+        const newUser = new User(id, name, email, cypherPassword, userRole)
 
 
-        await userDatabase.create(newUser)
+        await this.userDatabase.create(newUser)
 
 
-        const token: string = authenticator.generate({ id, role })
+        const token: string = authenticator.generate({ id, role: userRole })
 
         return token
     }
 
-    async login(email: string, password: string) {
+    async login(input: LoginInputDTO) {
+        const { email, password } = input
 
         if (!email || !password) {
             throw new CustomError(422, "'email' and 'password' must be provided")
@@ -56,7 +62,7 @@ export class UserBusiness {
             throw new CustomError(422, "Insert a valid e-mail, such as: 'xxxx@yyyyy.zzz.www");
         };
 
-        const user: User | undefined = await userDatabase.findUserByEmail(email)
+        const user: User | undefined = await this.userDatabase.findUserByEmail(email)
 
         if (!user) {
             throw new CustomError(422, "Invalid credentials")

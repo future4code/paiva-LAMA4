@@ -3,28 +3,40 @@ export enum USER_ROLES {
     NORMAL = "NORMAL"
 }
 
+export interface UserInputDTO {
+    name: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
+    role: string | undefined
+}
+
+export interface LoginInputDTO {
+    email: string | undefined,
+    password: string | undefined
+};
+
 export class User {
     constructor(
         private id: string,
         private name: string,
         private email: string,
-        private password: string, 
+        private password: string,
         private role: USER_ROLES
-    ) {}
+    ) { }
 
-    getId():string {
+    getId(): string {
         return this.id;
     };
 
-    getName():string {
+    getName(): string {
         return this.name;
     };
 
-    getEmail():string {
+    getEmail(): string {
         return this.email;
     };
 
-    getPassword():string {
+    getPassword(): string {
         return this.password;
     };
 
@@ -32,23 +44,23 @@ export class User {
         return this.role
     }
 
-    setId(newId: string):void {
+    setId(newId: string): void {
         this.id = newId;
     };
 
-    setName(newName: string):void {
+    setName(newName: string): void {
         this.name = newName;
     };
 
-    setEmail(newEmail: string):void {
+    setEmail(newEmail: string): void {
         this.email = newEmail;
     };
 
-    setPassword(newPassword: string):void {
+    setPassword(newPassword: string): void {
         this.password = newPassword;
     };
 
-    static toUserModel(data: any):User {
+    static toUserModel(data: any): User {
         return new User(data.id, data.name, data.email, data.password, data.role);
     };
 };

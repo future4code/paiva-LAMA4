@@ -1,16 +1,20 @@
-import { ShowDatabase } from "../data/ShowDatabase";
+import { ShowRepository } from "../data/ShowRepository";
 import { CustomError } from "../error/CustomError";
-import { Show, SHOW_DAYS, ShowInfo } from "../model/Show";
+import { Show, SHOW_DAYS, ShowInputDTO, ShowInfoOutputDTO } from "../model/Show";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
 const authenticator = new Authenticator()
-const showDatabase = new ShowDatabase()
 
 export class ShowBusiness {
     private static validHours: number[] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    constructor(
+        private showDatabase: ShowRepository
+    ) { }
 
-    async create(weekDay: SHOW_DAYS, startTime: number, endTime: number, bandId: string, token?: string) {
+    async create(input: ShowInputDTO, token?: string) {
+        const { weekDay, startTime, endTime, bandId } = input
+
         if (!token) {
             throw new CustomError(401, "Authentication required")
         }
@@ -40,7 +44,7 @@ export class ShowBusiness {
             throw new CustomError(422, "'startTime' should be earlier than 'endTime'")
         }
 
-        const shows = await showDatabase.findByDay(weekDay)
+        const shows = await this.showDatabase.findByDay(weekDay)
 
 
         for (let show of shows) {
@@ -55,10 +59,10 @@ export class ShowBusiness {
         const id: string = idGenerator.generate()
 
 
-        const newShow = new Show(id, weekDay, startTime, endTime, bandId)
+        const newShow = new Show(id, weekDay as SHOW_DAYS, startTime, endTime, bandId)
 
 
-        await showDatabase.create(newShow)
+        await this.showDatabase.create(newShow)
 
     }
 
@@ -73,9 +77,9 @@ export class ShowBusiness {
             throw new CustomError(422, "weekDay should be FRIDAY, SATURDAY or SUNDAY")
         }
 
-        const result = await showDatabase.findByDayOrdered(weekDay)
+        const result = await this.showDatabase.findByDayOrdered(weekDay)
 
-        let shows: ShowInfo[] = []
+        let shows: ShowInfoOutputDTO[] = []
 
         result.map((show) => shows.push({
             name: show.getName(),

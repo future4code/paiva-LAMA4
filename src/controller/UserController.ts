@@ -1,16 +1,25 @@
 import { Request, Response } from 'express'
 import { UserBusiness } from '../business/UserBusiness'
-
-const userBusiness: UserBusiness = new UserBusiness()
+import { LoginInputDTO, UserInputDTO } from '../model/User'
 
 export class UserController {
+    constructor(
+        private userBusiness: UserBusiness
+    ) { }
+
     async signup(req: Request, res: Response) {
         try {
             let message = "Success!"
             const { name, email, password, role } = req.body
 
+            const input: UserInputDTO = {
+                name,
+                email,
+                password,
+                role
+            }
 
-            const token = await userBusiness.signup(name, email, password, role)
+            const token = await this.userBusiness.signup(input)
 
             res.status(201).send({ message, token })
 
@@ -26,7 +35,12 @@ export class UserController {
 
             const { email, password } = req.body
 
-            const token = await userBusiness.login(email, password)
+            const input: LoginInputDTO = {
+                email,
+                password
+            }
+
+            const token = await this.userBusiness.login(input)
 
             res.status(200).send({ message, token })
 

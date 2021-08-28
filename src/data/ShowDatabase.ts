@@ -5,7 +5,7 @@ import { BaseDatabase } from "./BaseDatabase";
 export class ShowDatabase extends BaseDatabase {
     private static TABLE_NAME = "Lama_Shows"
 
-    async create(newShow: Show) {
+    async create(newShow: Show): Promise<void> {
         try {
             await BaseDatabase.connection(ShowDatabase.TABLE_NAME)
                 .insert({

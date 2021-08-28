@@ -5,7 +5,7 @@ import { BaseDatabase } from "./BaseDatabase";
 export class UserDatabase extends BaseDatabase {
     private static TABLE_NAME = "Lama_Users"
 
-    async create(newUser: User) {
+    async create(newUser: User): Promise<void> {
         try {
             await BaseDatabase.connection(UserDatabase.TABLE_NAME)
                 .insert({

@@ -1,16 +1,19 @@
 import { BandDatabase } from "../data/BandDatabase";
 import { CustomError } from "../error/CustomError";
-import { Band } from "../model/Band";
+import { Band, BandInputDTO, BandOutputDTO } from "../model/Band";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
-
-const bandDatabase = new BandDatabase()
 
 const authenticator = new Authenticator()
 
 export class BandBusiness {
+    constructor(
+        private bandDatabase: BandDatabase
+    ) { }
 
-    async create(name: string, musicGenre: string, responsible: string, token?: string) {
+    async create(input: BandInputDTO, token?: string) {
+        const { name, musicGenre, responsible } = input
+
         if (!token) {
             throw new CustomError(401, "Authentication required")
         }
@@ -32,7 +35,7 @@ export class BandBusiness {
         const newBand = new Band(id, name, musicGenre, responsible)
 
 
-        await bandDatabase.create(newBand)
+        await this.bandDatabase.create(newBand)
 
     }
 
@@ -47,13 +50,20 @@ export class BandBusiness {
 
         authenticator.getTokenData(token)
 
-        const band = await bandDatabase.findById(id)
+        const band = await this.bandDatabase.findById(id)
 
         if (!band) {
             throw new CustomError(404, "Band doesn't exist")
         }
 
-        return band
+        const bandOutput: BandOutputDTO = {
+            id: band.getId(),
+            name: band.getName(),
+            musicGenre: band.getMusicGenre(),
+            responsible: band.getResponsible()
+        }
+
+        return bandOutput
 
 
     }

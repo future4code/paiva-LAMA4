@@ -1,3 +1,16 @@
+export interface BandInputDTO {
+    name: string | undefined,
+    musicGenre: string | undefined,
+    responsible: string | undefined,
+}
+
+export interface BandOutputDTO {
+    id: string,
+    name: string,
+    musicGenre: string,
+    responsible: string,
+}
+
 export class Band {
     constructor(
         private id: string,

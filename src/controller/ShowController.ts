@@ -1,18 +1,27 @@
 import { Request, Response } from 'express'
 import { ShowBusiness } from '../business/ShowBusiness'
-import { SHOW_DAYS } from '../model/Show'
-
-const showBusiness: ShowBusiness = new ShowBusiness()
+import { ShowInfoOutputDTO, ShowInputDTO, SHOW_DAYS } from '../model/Show'
 
 export class ShowController {
-    async create(req: Request, res: Response) {
+    constructor(
+        private showBusiness: ShowBusiness
+    ) { }
+
+    async create(req: Request, res: Response):Promise<void> {
         try {
             let message = "Success!"
             const { weekDay, startTime, endTime, bandId } = req.body
 
+            const input: ShowInputDTO = {
+                weekDay,
+                startTime,
+                endTime,
+                bandId
+            }
+
             const token = req.headers.authorization
 
-            await showBusiness.create(weekDay, startTime, endTime, bandId, token)
+            await this.showBusiness.create(input, token)
 
             res.status(201).send({ message })
 
@@ -30,7 +39,7 @@ export class ShowController {
 
             const token = req.headers.authorization
 
-            const shows = await showBusiness.findByDay(weekDay, token)
+            const shows: ShowInfoOutputDTO[] = await this.showBusiness.findByDay(weekDay, token)
 
             res.status(200).send({ message, shows })
 

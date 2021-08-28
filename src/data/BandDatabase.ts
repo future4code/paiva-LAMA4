@@ -5,7 +5,7 @@ import { BaseDatabase } from "./BaseDatabase";
 export class BandDatabase extends BaseDatabase {
     private static TABLE_NAME = "Lama_Bands"
 
-    async create(newBand: Band) {
+    async create(newBand: Band): Promise<void> {
         try {
             await BaseDatabase.connection(BandDatabase.TABLE_NAME)
                 .insert({

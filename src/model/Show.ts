@@ -4,7 +4,14 @@ export enum SHOW_DAYS {
     SUNDAY = "SUNDAY"
 }
 
-export interface ShowInfo {
+export interface ShowInputDTO {
+    weekDay: string | undefined,
+    startTime: number | undefined,
+    endTime: number | undefined,
+    bandId: string | undefined
+}
+
+export interface ShowInfoOutputDTO {
     name: string,
     musicGenre: string,
     schedule: string
