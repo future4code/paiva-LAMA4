@@ -4,10 +4,11 @@ import { Band, BandInputDTO, BandOutputDTO } from "../model/Band";
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
-const authenticator = new Authenticator()
 
 export class BandBusiness {
     constructor(
+        private authenticator: Authenticator,
+        private idGenerator: IdGenerator,
         private bandDatabase: BandDatabase
     ) { }
 
@@ -18,7 +19,7 @@ export class BandBusiness {
             throw new CustomError(401, "Authentication required")
         }
 
-        const tokenData = authenticator.getTokenData(token)
+        const tokenData = this.authenticator.getTokenData(token)
 
         if (tokenData.role !== "ADMIN") {
             throw new CustomError(403, "You should be an ADMIN user to access")
@@ -28,8 +29,7 @@ export class BandBusiness {
             throw new CustomError(422, "'name', 'musicGenre' and 'responsible' must be provided")
         }
 
-        const idGenerator = new IdGenerator()
-        const id: string = idGenerator.generate()
+        const id: string = this.idGenerator.generate()
 
 
         const newBand = new Band(id, name, musicGenre, responsible)
@@ -48,7 +48,7 @@ export class BandBusiness {
             throw new CustomError(401, "Authentication required")
         }
 
-        authenticator.getTokenData(token)
+        this.authenticator.getTokenData(token)
 
         const band = await this.bandDatabase.findById(id)
 

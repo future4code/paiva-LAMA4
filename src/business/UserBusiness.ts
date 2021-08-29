@@ -5,12 +5,14 @@ import { Authenticator } from "../services/Authenticator";
 import { HashManager } from "../services/HashManager";
 import { IdGenerator } from "../services/IdGenerator";
 
-const hashManager = new HashManager()
-const authenticator = new Authenticator()
 
 export class UserBusiness {
     static regExValidateEmail: RegExp = /^([a-z]){1,}([a-z0-9._-]){1,}([@]){1}([a-z]){2,}([.]){1}([a-z]){2,}([.]?){1}([a-z]?){2,}$/i;
+
     constructor(
+        private hashManager: HashManager,
+        private authenticator: Authenticator,
+        private idGenerator: IdGenerator,
         private userDatabase: UserRepository
     ) { }
 
@@ -34,11 +36,10 @@ export class UserBusiness {
             userRole = USER_ROLES.NORMAL
         }
 
-        const idGenerator = new IdGenerator()
-        const id: string = idGenerator.generate()
+        const id: string = this.idGenerator.generate()
 
 
-        const cypherPassword = await hashManager.hash(password);
+        const cypherPassword = await this.hashManager.hash(password);
 
         const newUser = new User(id, name, email, cypherPassword, userRole)
 
@@ -46,7 +47,7 @@ export class UserBusiness {
         await this.userDatabase.create(newUser)
 
 
-        const token: string = authenticator.generate({ id, role: userRole })
+        const token: string = this.authenticator.generate({ id, role: userRole })
 
         return token
     }
@@ -68,13 +69,13 @@ export class UserBusiness {
             throw new CustomError(422, "Invalid credentials")
         }
 
-        const passwordIsCorrect: boolean = await hashManager.compare(password, user.getPassword())
+        const passwordIsCorrect: boolean = await this.hashManager.compare(password, user.getPassword())
 
         if (!passwordIsCorrect) {
             throw new CustomError(422, "Invalid credentials")
         }
 
-        const token: string = authenticator.generate({ id: user.getId(), role: user.getRole() })
+        const token: string = this.authenticator.generate({ id: user.getId(), role: user.getRole() })
 
         return token
     }

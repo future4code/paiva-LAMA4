@@ -4,11 +4,12 @@ import { Show, SHOW_DAYS, ShowInputDTO, ShowInfoOutputDTO } from "../model/Show"
 import { Authenticator } from "../services/Authenticator";
 import { IdGenerator } from "../services/IdGenerator";
 
-const authenticator = new Authenticator()
 
 export class ShowBusiness {
     private static validHours: number[] = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
     constructor(
+        private authenticator: Authenticator,
+        private idGenerator: IdGenerator,
         private showDatabase: ShowRepository
     ) { }
 
@@ -19,7 +20,7 @@ export class ShowBusiness {
             throw new CustomError(401, "Authentication required")
         }
 
-        const tokenData = authenticator.getTokenData(token)
+        const tokenData = this.authenticator.getTokenData(token)
 
         if (tokenData.role !== "ADMIN") {
             throw new CustomError(403, "You should be an ADMIN user to access")
@@ -54,9 +55,7 @@ export class ShowBusiness {
         }
 
 
-
-        const idGenerator = new IdGenerator()
-        const id: string = idGenerator.generate()
+        const id: string = this.idGenerator.generate()
 
 
         const newShow = new Show(id, weekDay as SHOW_DAYS, startTime, endTime, bandId)
@@ -71,7 +70,7 @@ export class ShowBusiness {
             throw new CustomError(401, "Authentication required")
         }
 
-        authenticator.getTokenData(token)
+        this.authenticator.getTokenData(token)
 
         if (weekDay.toLocaleUpperCase() !== SHOW_DAYS.FRIDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SATURDAY && weekDay.toLocaleUpperCase() !== SHOW_DAYS.SUNDAY) {
             throw new CustomError(422, "weekDay should be FRIDAY, SATURDAY or SUNDAY")
