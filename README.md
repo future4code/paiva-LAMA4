@@ -49,3 +49,20 @@ Um grande evento: o **LAMA**, *Labenu Musical Awards*, um festival  com várias 
 * ### Pegar todos os shows de uma data
 
     Recebe um dia (sexta, sábado ou domingo) e retorna todos os shows daquela data (ordenados pelo horário), mostrando somente o nome da banda e o gênero musical principal.
+    
+  
+## Autores
+
+<table>
+  <tr>
+   
+  <td align="center"><a href="https://github.com/BrunoSilva28">
+    <img src="https://avatars.githubusercontent.com/u/81280346?v=4" width="100px" alt="Imagem do perfil de Bruno Santos"/>
+    <br />
+    <sub><b>Bruno Santos</b></sub>
+        <td align="center"><a href="https://github.com/peustef">
+    <img src="https://avatars.githubusercontent.com/u/20777850?v=4" width="100px" alt="Imagem do perfil de Pedro Stefani"/>
+    <br />
+    <sub><b>Pedro Stefani Saldanha</b></sub>
+  
+</table>
