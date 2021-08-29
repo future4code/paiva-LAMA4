@@ -14,7 +14,7 @@ export class BandDatabase extends BaseDatabase {
                     music_genre: newBand.getMusicGenre(),
                     responsible: newBand.getResponsible(),
                 })
-        } catch (error) {
+        } catch (error: any) {
             throw new CustomError(400, error.sqlMessage)
         }
 
