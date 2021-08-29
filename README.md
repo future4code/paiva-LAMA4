@@ -19,7 +19,7 @@
 
 ## Documentação dos endpoints no Postman
 
-https://documenter.getpostman.com/view/15825757/TzzHnYuh
+https://documenter.getpostman.com/view/15825757/TzzHnYuh{target="_blank"}
 
 # Labenu Music Awards
 Um grande evento: o **LAMA**, *Labenu Musical Awards*, um festival  com várias bandas famosas!
