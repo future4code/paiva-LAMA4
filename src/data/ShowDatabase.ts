@@ -15,7 +15,7 @@ export class ShowDatabase extends BaseDatabase {
                     end_time: newShow.getEndTime(),
                     band_id: newShow.getBandId()
                 })
-        } catch (error) {
+        } catch (error: any) {
             throw new CustomError(400, error.sqlMessage)
         }
 
