@@ -24,6 +24,7 @@ https://documenter.getpostman.com/view/15825757/TzzHnYuh
 # Labenu Music Awards
 Um grande evento: o **LAMA**, *Labenu Musical Awards*, um festival  com várias bandas famosas!
 
+### ENDPOINTS
 * ### Cadastro
 
      Para se cadastrar, é necessário passar um email, um nome e uma senha, e também uma função dentro do sistema. Você pode ser um cliente (usuário normal) ou um administrador do sistema (admin). 
