@@ -15,7 +15,7 @@ export class UserDatabase extends BaseDatabase {
                     password: newUser.getPassword(),
                     role: newUser.getRole()
                 })
-        } catch (error) {
+        } catch (error: any) {
             throw new CustomError(400, error.sqlMessage)
         }
 
