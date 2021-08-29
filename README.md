@@ -17,7 +17,7 @@
    BCRYPT_COST = 
    ```
 
-## Endpoints
+## Documentação dos endpoints no Postman
 
 https://documenter.getpostman.com/view/15825757/TzzHnYuh
 
