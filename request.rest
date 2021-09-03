@@ -1,0 +1,51 @@
+### user endpoints
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name": "Pedro",
+    "email": "pedro@email.com",
+    "password": "123456",
+    "role": "admin"
+}
+
+###
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email": "joao@email.com",
+    "password": "123456"
+}
+
+### band endpoints
+GET http://localhost:3003/band/356a1a10-270e-49df-b317-acf9f4cc8102
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE5MDk1MiwiZXhwIjoxNjMwMTk0NTUyfQ.086k2dDKeMwvDjKMJzwNSwp9Z86UYfbhZwZqLO6bLZE
+
+###
+POST http://localhost:3003/band/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE5MDk1MiwiZXhwIjoxNjMwMTk0NTUyfQ.086k2dDKeMwvDjKMJzwNSwp9Z86UYfbhZwZqLO6bLZE
+
+{
+    "name": "Sepultura",
+    "musicGenre": "Rock",
+    "responsible": "Maria"
+}
+
+### show endpoints
+GET http://localhost:3003/show/friday
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE5MDk1MiwiZXhwIjoxNjMwMTk0NTUyfQ.086k2dDKeMwvDjKMJzwNSwp9Z86UYfbhZwZqLO6bLZE
+
+###
+POST http://localhost:3003/show/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjM0MGMzMGIyLWUzMjUtNGUzZC1iMWIwLTdjZDQxZmYwNmFiNCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTYzMDE5MDk1MiwiZXhwIjoxNjMwMTk0NTUyfQ.086k2dDKeMwvDjKMJzwNSwp9Z86UYfbhZwZqLO6bLZE
+
+{
+    "weekDay": "friday",
+    "startTime": 9,
+    "endTime": 10,
+    "bandId": "356a1a10-270e-49df-b317-acf9f4cc8102"
+}
+
